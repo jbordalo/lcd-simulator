@@ -4,7 +4,7 @@ TFT LCD ARDUINO simulator in Python.
 
 Includes a GUI alongside a text editor for testing.
 
-![GUI](figures/example.png)
+![GUI](./figures/example.png)
 
 <hr>
 
