@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 import matplotlib.pyplot as plt
+import io
 
 class TFT_LCD:
     def __init__(self, width: int, height: int):
@@ -12,7 +13,7 @@ class TFT_LCD:
         self.font_size = 1
 
 
-    def show(self):
+    def show(self, display=True):
         border_size = 4
         border_color = (255, 0, 0)
         bordered_img = Image.new("RGB", (self.width + 2 * border_size, self.height + 2 * border_size), border_color)
@@ -21,7 +22,14 @@ class TFT_LCD:
 
         plt.imshow(bordered_img)
         plt.axis("off")
-        plt.show()
+        
+        if display:
+            plt.show()
+
+        img_io = io.BytesIO()
+        bordered_img.save(img_io, "PNG")
+        img_io.seek(0)
+        return img_io
 
 
     def fill_screen(self, color: tuple):

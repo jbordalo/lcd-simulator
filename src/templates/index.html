@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock LCD Simulator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #2e3440;
+            color: #eceff4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        textarea {
+            width: 640px;
+            height: 340px;
+            margin: 5px 10px 10px 10px;
+            font-size: 14px;
+            background-color: #4c566a;
+            color: #eceff4
+        }
+
+        #output * {
+            margin: 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        img {
+            margin-top: 20px;
+            border: 2px solid black;
+            max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>LCD Simulator</h2>
+    <div class="container">
+
+        <div>
+            <textarea id="codeArea">tft.fill_screen(BLACK)
+
+tft.set_rotation(1)
+
+tft.draw_line((10, 10), (tft.width - 10, 10), BLUE)
+tft.draw_line((10, tft.height - 10), (tft.width - 10, tft.height - 10), BLUE)
+
+tft.draw_line((10, 10), (10, tft.height - 10), BLUE)
+tft.draw_line((tft.width - 10, 10), (tft.width - 10, tft.height - 10), BLUE)
+
+tft.set_font_size(16)
+tft.set_font("fonts/Arial.ttf")
+
+tft.set_cursor(25, 30)
+tft.draw_text("Hello, World", WHITE)
+tft.set_cursor(25, 50)
+tft.draw_text("I'm an LCD", WHITE)</textarea><br>
+            <button onclick="runCode()">Run</button>
+        </div>
+        <div id="output">
+            <h3>Display Output</h3>
+            <img id="outputImage" src="{{ img_url }}" alt="LCD Display">
+        </div>
+    </div>
+
+    <script>
+        function runCode() {
+            let code = document.getElementById("codeArea").value;
+            fetch("/", {
+                method: "POST",
+                body: new URLSearchParams({ code: code }),
+                headers: { "Content-Type": "application/x-www-form-urlencoded" }
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    document.getElementById("outputImage").src = URL.createObjectURL(blob);
+                })
+                .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+
+</html>

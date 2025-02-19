@@ -17,7 +17,7 @@ tft.draw_line((10, 10), (10, tft.height-10), BLUE)
 tft.draw_line((tft.width-10, 10), (tft.width-10, tft.height-10), BLUE)
 
 tft.set_font_size(16)
-tft.set_font("Arial.ttf")
+tft.set_font("fonts/Arial.ttf")
 
 tft.set_cursor(25,30)
 tft.draw_text("Hello, World", WHITE)
