@@ -11,6 +11,7 @@ class TFT_LCD:
         self.cursor_y = 0
         self.font = ImageFont.load_default()
         self.font_size = 1
+        self.color: tuple = (0,0,0)
 
 
     def show(self, display=True):
@@ -46,7 +47,15 @@ class TFT_LCD:
         draw.line([start, end], fill=color)
 
 
-    def set_cursor(self, x: int, y: int) -> None:
+    def getCursorX(self):
+        return self.cursor_x
+
+
+    def getCursorY(self):
+        return self.cursor_y
+
+
+    def setCursor(self, x: int, y: int) -> None:
         self.cursor_x = x
         self.cursor_y = y
 
@@ -55,18 +64,21 @@ class TFT_LCD:
         self.font = ImageFont.truetype(font_path, self.font_size)
 
 
-    def set_font_size(self, font_size: int):
+    def setTextSize(self, font_size: int):
         self.font_size = font_size
 
 
-    def draw_text(self, text: str, color: tuple) -> None:
+    def print(self, text: str) -> None:
         draw = ImageDraw.Draw(self.screen)
-        draw.text((self.cursor_x, self.cursor_y), text, font=self.font, fill=color)
+        draw.text((self.cursor_x, self.cursor_y), text, font=self.font, fill=self.color)
 
 
-    def set_rotation(self, angle: int):
+    def setRotation(self, angle: int):
         angle = [0, 90, 180, 270][angle]
         self.screen = self.screen.rotate(angle, expand=True)
 
         if angle in [90, 270]:
             self.width, self.height = self.height, self.width
+
+    def setTextColor(self, color):
+        self.color = color
